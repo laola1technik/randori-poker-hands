@@ -1,7 +1,0 @@
-{
-    "mocha.files.glob": "src/**/*.spec.ts",
-    "mocha.files.ignore": "**/node_modules/**/*",
-    "mocha.requires": [
-        "ts-node/register"
-    ]
-}

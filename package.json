@@ -1,13 +1,12 @@
 {
-  "name": "ts-katas",
-  "description": "TypeScript code katas.",
+  "name": "PokerHands",
+  "description": "Randori Poker Hands Kata.",
   "version": "1.0.0",
-  "author": "Peter 'Code Cop' Kofler",
   "license": "BSD-2-Clause",
   "readmeFilename": "README.md",
   "repository": {
-    "type": "hg",
-    "url": "https://bitbucket.org/pkofler/ts-katas"
+    "type": "git",
+    "url": "https://github.com/laola1technik/randori-poker-hands.git"
   },
   "dependencies": {},
   "devDependencies": {
