@@ -1,0 +1,16 @@
+syntax: glob
+
+# Node
+node_modules/
+npm-debug.log
+
+dist/
+coverage/
+.nyc_output/
+
+# Kata
+repos
+video
+**/*.lnk
+*.orig
+*.bak

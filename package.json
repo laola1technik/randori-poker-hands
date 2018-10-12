@@ -1,0 +1,36 @@
+{
+  "name": "ts-katas",
+  "description": "TypeScript code katas.",
+  "version": "1.0.0",
+  "author": "Peter 'Code Cop' Kofler",
+  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "hg",
+    "url": "https://bitbucket.org/pkofler/ts-katas"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "4.1.4",
+    "@types/mocha": "5.2.5",
+    "@types/node": "10.11.2",
+    "chai": "4.1.2",
+    "mocha": "5.2.0",
+    "nyc": "10.1.2",
+    "source-map-support": "0.5.9",
+    "ts-node": "7.0.1",
+    "tslint": "5.8.0",
+    "typescript": "3.0.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --opts ./mocha.opts",
+    "lint": "tslint --project ."
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "all": true
+  }
+}

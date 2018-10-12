@@ -1,0 +1,6 @@
+repo: 234be51e28c58a3156dee8e29428aa4c36f651c9
+node: f8bfa6a84660ac994737da231f10430336b86940
+branch: default
+latesttag: HelloWorld
+latesttagdistance: 29
+changessincelatesttag: 29
