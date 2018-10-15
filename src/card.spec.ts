@@ -20,12 +20,15 @@ describe("Card", () => {
         });
     });
     describe("Suit", () => {
-        it("knows if it has same", () => {
+        it("knows if it is same", () => {
             const card1 = new Card("Ad");
             const card2 = new Card("9d");
             expect(card1.suits(card2)).to.be.true;
         });
-
-
+        it("knows if it is different", () => {
+            const card1 = new Card("Ad");
+            const card2 = new Card("9c");
+            expect(card1.suits(card2)).to.be.false;
+        });
     });
 });

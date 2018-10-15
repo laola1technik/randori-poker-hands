@@ -11,7 +11,11 @@ export default class Card {
         return this.cardsInOrder.indexOf(this.identifier[0]);
     }
 
-    public suits(): boolean {
-        return true;
+    public suits(other: Card): boolean {
+        return other.suit === this.suit;
+    }
+
+    private get suit(): string {
+        return this.identifier[1];
     }
 }
