@@ -24,5 +24,8 @@ describe("Hand", () => {
         it("wins against high card (as flush)", () => {
             expect(flush.compareTo(highCard)).to.equal(Result.WIN);
         });
+        it("loses against flush (as high card)", () => {
+            expect(highCard.compareTo(flush)).to.equal(Result.LOSE);
+        });
     });
 });

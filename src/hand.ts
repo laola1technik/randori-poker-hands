@@ -1,13 +1,25 @@
 import Card from "./card";
 
 export default class Hand {
-    constructor(private cards: [Card, Card, Card, Card, Card]) {
+    private type: Score;
 
+    constructor(private cards: [Card, Card, Card, Card, Card]) {
+        this.type = Score.HIGH_CARD;
+        if (this.sameSuits(cards)) {
+            this.type = Score.FLUSH;
+        }
     }
 
     public compareTo(other: Hand): Result {
-        console.log(other);
-        return Result.WIN;
+        if (this.type > other.type) {
+            return Result.WIN;
+        }
+
+        return Result.LOSE;
+    }
+
+    private sameSuits(cards: [Card, Card, Card, Card, Card]): boolean {
+        return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
     }
 }
 
