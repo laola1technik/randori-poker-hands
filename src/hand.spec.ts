@@ -20,11 +20,13 @@ const highCard = new Hand([
 ]);
 
 describe("Hand", () => {
-    describe("compares", () => {
-        it("wins against high card (as flush)", () => {
+    describe("of Flush", () => {
+        it("wins against high card", () => {
             expect(flush.compareTo(highCard)).to.equal(Result.WIN);
         });
-        it("loses against flush (as high card)", () => {
+    });
+    describe("of High Card", () => {
+        it("loses against flush", () => {
             expect(highCard.compareTo(flush)).to.equal(Result.LOSE);
         });
     });
