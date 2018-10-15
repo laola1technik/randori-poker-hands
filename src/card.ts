@@ -10,4 +10,8 @@ export default class Card {
     get value(): number {
         return this.cardsInOrder.indexOf(this.identifier[0]);
     }
+
+    public suits(): boolean {
+        return true;
+    }
 }

@@ -19,4 +19,13 @@ describe("Card", () => {
             expect(card.value).to.equal(2);
         });
     });
+    describe("Suit", () => {
+        it("knows if it has same", () => {
+            const card1 = new Card("Ad");
+            const card2 = new Card("9d");
+            expect(card1.suits(card2)).to.be.true;
+        });
+
+
+    });
 });
