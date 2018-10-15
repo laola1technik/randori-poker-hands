@@ -1,0 +1,25 @@
+Hand Value
+    * Royal Flush
+    * Straight Flush
+    * Four of a Kind
+    * Full House
+    * Flush
+    * Straight
+    * Three of a Kind
+    * Two Pair
+    * One Pair
+    * High Card
+Hand Value Order
+    * Win / Lose / Draw (Split pot)
+Hand Input
+    * String including blanks
+Hand Validation?
+    * Double Cards
+    * Illegal Cards
+Cards
+
+Testlist
+========
+Hand should be sorted.
+Royal Flush of Hearts should split pot with Royal Flush Spades.
+Royal Flush should win against Straight Flush.
