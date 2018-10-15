@@ -5,7 +5,8 @@ export default class Hand {
 
     }
 
-    public compareTo() {
+    public compareTo(other: Hand): Result {
+        console.log(other);
         return Result.WIN;
     }
 }
