@@ -21,13 +21,7 @@ const highCard = new Hand([
 
 describe("Hand", () => {
     it("sort cards on creation", () => {
-        const sorted = new Hand([
-            new Card("3s"),
-            new Card("7h"),
-            new Card("4s"),
-            new Card("Ks"),
-            new Card("Ts"),
-        ]);
+        const sorted = Hand.createFromCards("3s", "7h", "4s", "Ks", "Ts");
         expect(sorted).to.deep.equal(highCard);
     });
     describe("of Flush", () => {
@@ -42,6 +36,7 @@ describe("Hand", () => {
     });
     describe("of Straight", () => {
         it("wins against high card", () => {
+            // todo createFromCards
             const straight = new Hand([
                 new Card("3s"),
                 new Card("4s"),
@@ -53,15 +48,16 @@ describe("Hand", () => {
         });
     });
     describe("of Straight Flush", () => {
-       it("wins against flush", () => {
-           const straightFlush = new Hand([
-               new Card("3s"),
-               new Card("4s"),
-               new Card("5s"),
-               new Card("6s"),
-               new Card("7s"),
-           ]);
-           expect(straightFlush.compareTo(flush)).to.equal(Result.WIN);
-       }) ;
+        it("wins against flush", () => {
+            // todo createFromCards
+            const straightFlush = new Hand([
+                new Card("3s"),
+                new Card("4s"),
+                new Card("5s"),
+                new Card("6s"),
+                new Card("7s"),
+            ]);
+            expect(straightFlush.compareTo(flush)).to.equal(Result.WIN);
+        });
     });
 });

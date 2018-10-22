@@ -58,6 +58,9 @@ namespace Rules {
 }
 
 export default class Hand {
+    public static createFromCards(card1: string, card2: string, card3: string, card4: string, card5: string) {
+        return new Hand([new Card(card1), new Card(card2), new Card(card3), new Card(card4), new Card(card5)]);
+    }
     private readonly cards: FiveCards;
     private readonly type: Score;
 
