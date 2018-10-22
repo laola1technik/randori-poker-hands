@@ -18,7 +18,45 @@ enum Score {
 interface IRule {
     score: Score;
 
-    condition(): boolean;
+    condition(cards: FiveCards): boolean;
+}
+
+namespace Rules {
+    export const rules: IRule[] = [
+        {
+            condition: (cards) => {
+                return sameSuits(cards) && isStraight(cards);
+            },
+            score: Score.STRAIGHT_FLUSH,
+        },
+        {
+            condition: (cards) => {
+                return isStraight(cards);
+            },
+            score: Score.STRAIGHT,
+        },
+        {
+            condition: (cards) => {
+                return sameSuits(cards);
+            },
+            score: Score.FLUSH,
+        },
+    ];
+
+    function isStraight(cards: FiveCards): boolean {
+        let current = cards[0].value;
+        for (const card of cards.slice(1)) {
+            if (card.value !== current + 1) {
+                return false;
+            }
+            current = card.value;
+        }
+        return true;
+    }
+
+    function sameSuits(cards: FiveCards): boolean {
+        return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
+    }
 }
 
 export default class Hand {
@@ -29,28 +67,9 @@ export default class Hand {
         this.cards = cards;
         this.type = Score.HIGH_CARD;
         this.sortCardsByValue();
-        const rules: IRule[] = [
-            {
-                condition: () => {
-                    return this.sameSuits() && this.isStraight();
-                },
-                score: Score.STRAIGHT_FLUSH,
-            },
-            {
-                condition: () => {
-                    return this.isStraight();
-                },
-                score: Score.STRAIGHT,
-            },
-            {
-                condition: () => {
-                    return this.sameSuits();
-                },
-                score: Score.FLUSH,
-            },
-        ];
-        for (const rule of rules) {
-            if (rule.condition()) {
+
+        for (const rule of Rules.rules) {
+            if (rule.condition(this.cards)) {
                 this.type = rule.score;
                 break;
             }
@@ -65,25 +84,10 @@ export default class Hand {
         return Result.LOSE;
     }
 
-    private sameSuits(): boolean {
-        return this.cards.filter((card: Card) => card.suits(this.cards[0])).length === 5;
-    }
-
     private sortCardsByValue() {
         this.cards.sort((cardA: Card, cardB: Card) => {
             return cardA.value - cardB.value;
         });
-    }
-
-    private isStraight(): boolean {
-        let current = this.cards[0].value;
-        for (const card of this.cards.slice(1)) {
-            if (card.value !== current + 1) {
-                return false;
-            }
-            current = card.value;
-        }
-        return true;
     }
 }
 
