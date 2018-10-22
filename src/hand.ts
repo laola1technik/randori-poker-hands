@@ -1,12 +1,16 @@
 import Card from "./card";
 
-export default class Hand {
-    private type: Score;
+type FiveCards = [Card, Card, Card, Card, Card];
 
-    constructor(private cards: [Card, Card, Card, Card, Card]) {
+export default class Hand {
+    private readonly type: Score;
+    private readonly cards: FiveCards;
+
+    constructor(cards: FiveCards) {
+        this.cards = cards;
         this.sortCardsByValue();
         this.type = Score.HIGH_CARD;
-        if (this.sameSuits(cards)) {
+        if (this.sameSuits()) {
             this.type = Score.FLUSH;
         }
     }
@@ -19,8 +23,8 @@ export default class Hand {
         return Result.LOSE;
     }
 
-    private sameSuits(cards: [Card, Card, Card, Card, Card]): boolean {
-        return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
+    private sameSuits(): boolean {
+        return this.cards.filter((card: Card) => card.suits(this.cards[0])).length === 5;
     }
 
     private sortCardsByValue() {
