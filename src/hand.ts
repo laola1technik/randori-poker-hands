@@ -21,6 +21,7 @@ interface IRule {
     condition(cards: FiveCards): boolean;
 }
 
+// TODO: make module
 namespace Rules {
     export const rules: IRule[] = [
         {
