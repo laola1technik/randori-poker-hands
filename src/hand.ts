@@ -2,6 +2,25 @@ import Card from "./card";
 
 type FiveCards = [Card, Card, Card, Card, Card];
 
+enum Score {
+    HIGH_CARD = 1,
+    ONE_PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH,
+    ROYAL_FLUSH,
+}
+
+interface IRule {
+    score: Score;
+
+    condition(): boolean;
+}
+
 export default class Hand {
     private readonly type: Score;
     private readonly cards: FiveCards;
@@ -9,15 +28,28 @@ export default class Hand {
     constructor(cards: FiveCards) {
         this.cards = cards;
         this.sortCardsByValue();
-        this.type = Score.HIGH_CARD;
+        const rules: IRule[] = [
+            {
+                condition: () => {
+                    return this.sameSuits() && this.isStraight();
+                },
+                score: Score.STRAIGHT_FLUSH,
+            },
+        ];
+        if (true) {
+            this.type = Score.HIGH_CARD;
+        }
         if (this.sameSuits()) {
             this.type = Score.FLUSH;
         }
         if (this.isStraight()) {
             this.type = Score.STRAIGHT;
         }
-        if (this.sameSuits() && this.isStraight()) {
-            this.type = Score.STRAIGHT_FLUSH;
+        for (const rule of rules) {
+            if (rule.condition()) {
+                this.type = rule.score;
+                break;
+            }
         }
     }
 
@@ -49,19 +81,6 @@ export default class Hand {
         }
         return true;
     }
-}
-
-enum Score {
-    HIGH_CARD = 1,
-    ONE_PAIR,
-    TWO_PAIR,
-    THREE_OF_A_KIND,
-    STRAIGHT,
-    FLUSH,
-    FULL_HOUSE,
-    FOUR_OF_A_KIND,
-    STRAIGHT_FLUSH,
-    ROYAL_FLUSH,
 }
 
 export enum Result {
