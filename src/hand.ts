@@ -22,11 +22,12 @@ interface IRule {
 }
 
 export default class Hand {
-    private readonly type: Score;
     private readonly cards: FiveCards;
+    private readonly type: Score;
 
     constructor(cards: FiveCards) {
         this.cards = cards;
+        this.type = Score.HIGH_CARD;
         this.sortCardsByValue();
         const rules: IRule[] = [
             {
@@ -35,16 +36,19 @@ export default class Hand {
                 },
                 score: Score.STRAIGHT_FLUSH,
             },
+            {
+                condition: () => {
+                    return this.isStraight();
+                },
+                score: Score.STRAIGHT,
+            },
+            {
+                condition: () => {
+                    return this.sameSuits();
+                },
+                score: Score.FLUSH,
+            },
         ];
-        if (true) {
-            this.type = Score.HIGH_CARD;
-        }
-        if (this.sameSuits()) {
-            this.type = Score.FLUSH;
-        }
-        if (this.isStraight()) {
-            this.type = Score.STRAIGHT;
-        }
         for (const rule of rules) {
             if (rule.condition()) {
                 this.type = rule.score;
