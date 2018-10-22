@@ -4,6 +4,7 @@ export default class Hand {
     private type: Score;
 
     constructor(private cards: [Card, Card, Card, Card, Card]) {
+        this.sortCardsByValue();
         this.type = Score.HIGH_CARD;
         if (this.sameSuits(cards)) {
             this.type = Score.FLUSH;
@@ -20,6 +21,12 @@ export default class Hand {
 
     private sameSuits(cards: [Card, Card, Card, Card, Card]): boolean {
         return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
+    }
+
+    private sortCardsByValue() {
+        this.cards.sort((cardA: Card, cardB: Card) => {
+            return cardA.value - cardB.value;
+        });
     }
 }
 
