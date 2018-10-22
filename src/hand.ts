@@ -24,21 +24,15 @@ interface IRule {
 namespace Rules {
     export const rules: IRule[] = [
         {
-            condition: (cards) => {
-                return sameSuits(cards) && isStraight(cards);
-            },
+            condition: isStraightFlush,
             score: Score.STRAIGHT_FLUSH,
         },
         {
-            condition: (cards) => {
-                return isStraight(cards);
-            },
+            condition: isStraight,
             score: Score.STRAIGHT,
         },
         {
-            condition: (cards) => {
-                return sameSuits(cards);
-            },
+            condition: isFlush,
             score: Score.FLUSH,
         },
     ];
@@ -54,8 +48,12 @@ namespace Rules {
         return true;
     }
 
-    function sameSuits(cards: FiveCards): boolean {
+    function isFlush(cards: FiveCards): boolean {
         return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
+    }
+
+    function isStraightFlush(cards: FiveCards): boolean {
+        return isFlush(cards) && isStraight(cards);
     }
 }
 
