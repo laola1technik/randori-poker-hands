@@ -13,6 +13,9 @@ export default class Hand {
         if (this.sameSuits()) {
             this.type = Score.FLUSH;
         }
+        if (this.isStraight()) {
+            this.type = Score.STRAIGHT;
+        }
     }
 
     public compareTo(other: Hand): Result {
@@ -31,6 +34,17 @@ export default class Hand {
         this.cards.sort((cardA: Card, cardB: Card) => {
             return cardA.value - cardB.value;
         });
+    }
+
+    private isStraight(): boolean {
+        let current = this.cards[0].value;
+        for (const card of this.cards.slice(1)) {
+            if (card.value !== current + 1) {
+                return false;
+            }
+            current = card.value;
+        }
+        return true;
     }
 }
 

@@ -41,7 +41,7 @@ describe("Hand", () => {
         });
     });
     describe("of Straight", () => {
-        xit("wins against high card", () => {
+        it("wins against high card", () => {
             const straight = new Hand([
                 new Card("3s"),
                 new Card("6s"),
