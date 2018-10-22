@@ -44,12 +44,24 @@ describe("Hand", () => {
         it("wins against high card", () => {
             const straight = new Hand([
                 new Card("3s"),
-                new Card("6s"),
                 new Card("4s"),
                 new Card("5h"),
+                new Card("6s"),
                 new Card("7s"),
             ]);
             expect(straight.compareTo(highCard)).to.equal(Result.WIN);
         });
+    });
+    describe("of Straight Flush", () => {
+       it("wins against flush", () => {
+           const straightFlush = new Hand([
+               new Card("3s"),
+               new Card("4s"),
+               new Card("5s"),
+               new Card("6s"),
+               new Card("7s"),
+           ]);
+           expect(straightFlush.compareTo(flush)).to.equal(Result.WIN);
+       }) ;
     });
 });

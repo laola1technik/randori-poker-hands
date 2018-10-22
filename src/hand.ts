@@ -16,6 +16,9 @@ export default class Hand {
         if (this.isStraight()) {
             this.type = Score.STRAIGHT;
         }
+        if (this.sameSuits() && this.isStraight()) {
+            this.type = Score.STRAIGHT_FLUSH;
+        }
     }
 
     public compareTo(other: Hand): Result {
