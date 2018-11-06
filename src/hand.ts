@@ -62,24 +62,18 @@ export default class Hand {
     public static createFromCards(card1: string, card2: string, card3: string, card4: string, card5: string) {
         return new Hand([new Card(card1), new Card(card2), new Card(card3), new Card(card4), new Card(card5)]);
     }
+
     private readonly cards: FiveCards;
-    private readonly type: Score;
+    private readonly score: Score;
 
     constructor(cards: FiveCards) {
         this.cards = cards;
-        this.type = Score.HIGH_CARD;
         this.sortCardsByValue();
-
-        for (const rule of Rules.rules) {
-            if (rule.condition(this.cards)) {
-                this.type = rule.score;
-                break;
-            }
-        }
+        this.score = this.findScore();
     }
 
     public compareTo(other: Hand): Result {
-        if (this.type > other.type) {
+        if (this.score > other.score) {
             return Result.WIN;
         }
 
@@ -90,6 +84,15 @@ export default class Hand {
         this.cards.sort((cardA: Card, cardB: Card) => {
             return cardA.value - cardB.value;
         });
+    }
+
+    private findScore() {
+        for (const rule of Rules.rules) {
+            if (rule.condition(this.cards)) {
+                return rule.score;
+            }
+        }
+        return Score.HIGH_CARD;
     }
 }
 
