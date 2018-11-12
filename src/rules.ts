@@ -43,4 +43,5 @@ namespace Rules {
         return isFlush(cards) && isStraight(cards);
     }
 }
+
 export default Rules;

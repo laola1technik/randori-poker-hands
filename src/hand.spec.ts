@@ -1,7 +1,7 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import "mocha";
 import Card from "./card";
-import Hand, {Result} from "./hand";
+import Hand, { Result } from "./hand";
 
 const flush = new Hand([
     new Card("3d"),
