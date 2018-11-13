@@ -37,7 +37,7 @@ export default class Hand {
                 return rule.score;
             }
         }
-        return Score.HIGH_CARD;
+        throw new Error(`No score found for cards ${JSON.stringify(this.cards)}`);
     }
 }
 

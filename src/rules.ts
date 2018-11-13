@@ -22,6 +22,10 @@ namespace Rules {
             condition: isFlush,
             score: Score.FLUSH,
         },
+        {
+            condition: (_) => true,
+            score: Score.HIGH_CARD,
+        },
     ];
 
     function isStraight(cards: FiveCards): boolean {
