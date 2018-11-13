@@ -8,8 +8,8 @@ export default class Hand {
         return new Hand([new Card(card1), new Card(card2), new Card(card3), new Card(card4), new Card(card5)]);
     }
 
+    public readonly score: Score;
     private readonly cards: FiveCards;
-    private readonly score: Score;
 
     constructor(cards: FiveCards) {
         this.cards = cards;
