@@ -19,6 +19,10 @@ namespace Rules {
             score: Score.STRAIGHT_FLUSH,
         },
         {
+            condition: isFourOfAKind,
+            score: Score.FOUR_OF_A_KIND,
+        },
+        {
             condition: isStraight,
             score: Score.STRAIGHT,
         },
@@ -47,13 +51,26 @@ namespace Rules {
         return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
     }
 
+    function isRoyalFlush(cards: FiveCards): boolean {
+        return isStraightFlush(cards) &&
+            cards.find((card: Card) => card.isAce()) !== undefined;
+    }
+
     function isStraightFlush(cards: FiveCards): boolean {
         return isFlush(cards) && isStraight(cards);
     }
 
-    function isRoyalFlush(cards: FiveCards): boolean {
-        return isStraightFlush(cards) &&
-            cards.find((card: Card) => card.isAce()) !== undefined;
+    function isFourOfAKind(cards: FiveCards): boolean {
+        // TODO: !Hässlich.
+        const countByValue: Array<number | undefined> = [];
+        cards.forEach((card: Card) => {
+            if (countByValue[card.value]) {
+                countByValue[card.value]! += 1;
+            } else {
+                countByValue[card.value] = 1;
+            }
+        });
+        return countByValue.find((value: number | undefined) => value === 4) !== undefined;
     }
 
     export function findScore(cards: FiveCards) {
