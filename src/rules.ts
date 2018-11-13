@@ -9,7 +9,7 @@ interface IRule {
 }
 
 namespace Rules {
-    export const rules: IRule[] = [
+    const rules: IRule[] = [
         {
             condition: isStraightFlush,
             score: Score.STRAIGHT_FLUSH,
@@ -45,6 +45,15 @@ namespace Rules {
 
     function isStraightFlush(cards: FiveCards): boolean {
         return isFlush(cards) && isStraight(cards);
+    }
+
+    export function findScore(cards: FiveCards) {
+        for (const rule of rules) {
+            if (rule.condition(cards)) {
+                return rule.score;
+            }
+        }
+        throw new Error(`No score found for cards ${JSON.stringify(cards)}`);
     }
 }
 

@@ -14,7 +14,7 @@ export default class Hand {
     constructor(cards: FiveCards) {
         this.cards = cards;
         this.sortCardsByValue();
-        this.score = this.findScore();
+        this.score = Rules.findScore(this.cards);
     }
 
     public compareTo(other: Hand): Result {
@@ -29,15 +29,6 @@ export default class Hand {
         this.cards.sort((cardA: Card, cardB: Card) => {
             return cardA.value - cardB.value;
         });
-    }
-
-    private findScore() {
-        for (const rule of Rules.rules) {
-            if (rule.condition(this.cards)) {
-                return rule.score;
-            }
-        }
-        throw new Error(`No score found for cards ${JSON.stringify(this.cards)}`);
     }
 }
 
