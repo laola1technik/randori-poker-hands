@@ -11,6 +11,10 @@ export default class Card {
         return cardsInOrder.indexOf(this.identifier[0]);
     }
 
+    public isAce(): boolean {
+        return this.identifier[0] === "A";
+    }
+
     public suits(other: Card): boolean {
         return other.suit === this.suit;
     }

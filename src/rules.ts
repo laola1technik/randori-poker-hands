@@ -11,6 +11,10 @@ interface IRule {
 namespace Rules {
     const rules: IRule[] = [
         {
+            condition: isRoyalFlush,
+            score: Score.ROYAL_FLUSH,
+        },
+        {
             condition: isStraightFlush,
             score: Score.STRAIGHT_FLUSH,
         },
@@ -45,6 +49,11 @@ namespace Rules {
 
     function isStraightFlush(cards: FiveCards): boolean {
         return isFlush(cards) && isStraight(cards);
+    }
+
+    function isRoyalFlush(cards: FiveCards): boolean {
+        return isStraightFlush(cards) &&
+            cards.find((card: Card) => card.isAce()) !== undefined;
     }
 
     export function findScore(cards: FiveCards) {
