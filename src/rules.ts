@@ -30,6 +30,7 @@ namespace Rules {
             condition: isFlush,
             score: Score.FLUSH,
         },
+        // TODO add other hands
         {
             condition: (_) => true,
             score: Score.HIGH_CARD,
@@ -61,7 +62,7 @@ namespace Rules {
     }
 
     function isFourOfAKind(cards: FiveCards): boolean {
-        // TODO: !Hässlich.
+        // TODO !Hässlich.
         const countByValue: Array<number | undefined> = [];
         cards.forEach((card: Card) => {
             if (countByValue[card.value]) {

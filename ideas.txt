@@ -20,6 +20,4 @@ Cards
 
 Testlist
 ========
-Hand should be sorted.
-Royal Flush of Hearts should split pot with Royal Flush Spades.
-Royal Flush should win against Straight Flush.
+* Royal Flush of Hearts should split pot with Royal Flush Spades.

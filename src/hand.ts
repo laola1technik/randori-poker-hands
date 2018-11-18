@@ -21,7 +21,8 @@ export default class Hand {
         if (this.score > other.score) {
             return Result.WIN;
         }
-
+        // TODO SPLIT
+        // TODO cases of same hand with higher straight
         return Result.LOSE;
     }
 
