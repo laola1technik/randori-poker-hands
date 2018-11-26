@@ -61,17 +61,20 @@ namespace Rules {
         return isFlush(cards) && isStraight(cards);
     }
 
+    function countOccurrencesByValue(cards: FiveCards) {
+        return cards.reduce((countByValue: number[], card: Card) => {
+            countByValue[card.value] = countByValue[card.value] ? countByValue[card.value]! + 1 : 1;
+            return countByValue;
+        }, []);
+    }
+
+    function hasOccurrenceCount(cards: FiveCards, count: number): boolean {
+        const countByValue = countOccurrencesByValue(cards);
+        return countByValue.find((value: number) => value === count) !== undefined;
+    }
+
     function isFourOfAKind(cards: FiveCards): boolean {
-        // TODO !Hässlich.
-        const countByValue: Array<number | undefined> = [];
-        cards.forEach((card: Card) => {
-            if (countByValue[card.value]) {
-                countByValue[card.value]! += 1;
-            } else {
-                countByValue[card.value] = 1;
-            }
-        });
-        return countByValue.find((value: number | undefined) => value === 4) !== undefined;
+        return hasOccurrenceCount(cards, 4);
     }
 
     export function findScore(cards: FiveCards) {
