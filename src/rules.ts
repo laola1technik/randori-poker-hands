@@ -32,7 +32,7 @@ namespace Rules {
         },
         // TODO add other hands
         {
-            condition: (_) => true,
+            condition: () => true,
             score: Score.HIGH_CARD,
         },
     ];
