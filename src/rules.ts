@@ -30,6 +30,14 @@ namespace Rules {
             condition: isFlush,
             score: Score.FLUSH,
         },
+        {
+            condition: isTwoPair,
+            score: Score.TWO_PAIR,
+        },
+        {
+            condition: isOnePair,
+            score: Score.ONE_PAIR,
+        },
         // TODO add other hands
         {
             condition: () => true,
@@ -75,6 +83,19 @@ namespace Rules {
 
     function isFourOfAKind(cards: FiveCards): boolean {
         return hasOccurrenceCount(cards, 4);
+    }
+
+    function isOnePair(cards: FiveCards): boolean {
+        return hasOccurrenceCount(cards, 2);
+    }
+
+    function isTwoPair(cards: FiveCards): boolean {
+        const cardOccurrences = countOccurrencesByValue(cards);
+        const occurrences = cardOccurrences.reduce((countByValue: number[], cardOccurrence: number) => {
+            countByValue[cardOccurrence] = countByValue[cardOccurrence] ? countByValue[cardOccurrence]! + 1 : 1;
+            return countByValue;
+        }, []);
+        return occurrences.length > 2 && occurrences[2] === 2;
     }
 
     export function findScore(cards: FiveCards) {
