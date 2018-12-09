@@ -15,11 +15,12 @@ export default class Card {
         return this.identifier[0] === "A";
     }
 
+    private get suit(): string {
+        return this.identifier[1];
+    }
+
     public suits(other: Card): boolean {
         return other.suit === this.suit;
     }
 
-    private get suit(): string {
-        return this.identifier[1];
-    }
 }

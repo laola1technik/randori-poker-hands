@@ -4,6 +4,7 @@ import Hand from "./hand";
 import Score from "./score";
 
 describe("Rules", () => {
+
     const testCases: Array<[string, [string, string, string, string, string], Score]> = [
         ["high card", ["3s", "4s", "7h", "Ts", "Ks"], Score.HIGH_CARD],
         ["one pair", ["3s", "3d", "7h", "Ts", "Ks"], Score.ONE_PAIR],
@@ -17,9 +18,10 @@ describe("Rules", () => {
         ["royal flush", ["Ad", "Kd", "Qd", "Jd", "Td"], Score.ROYAL_FLUSH],
     ];
     testCases.forEach(([name, cards, score]) => {
-        it(`finds score of ${name}`, () => {
+        it(`find score of ${name}`, () => {
             const hand = Hand.createFromCards(...cards);
             expect(hand.score).to.equal(score);
         });
     });
+
 });

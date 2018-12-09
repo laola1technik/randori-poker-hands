@@ -3,7 +3,8 @@ import "mocha";
 import Card from "./card";
 
 describe("Card", () => {
-    describe("Value", () => {
+
+    describe("has a Value", () => {
         it("is 14 if Ace", () => {
             const card = new Card("Ad");
             expect(card.value).to.equal(14);
@@ -19,7 +20,8 @@ describe("Card", () => {
             expect(card.value).to.equal(2);
         });
     });
-    describe("Suit", () => {
+
+    describe("has a Suit", () => {
         it("knows if it is same", () => {
             const card1 = new Card("Ad");
             const card2 = new Card("9d");
@@ -31,4 +33,5 @@ describe("Card", () => {
             expect(card1.suits(card2)).to.be.false;
         });
     });
+
 });

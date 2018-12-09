@@ -22,14 +22,16 @@ namespace Rules {
             condition: isFourOfAKind,
             score: Score.FOUR_OF_A_KIND,
         },
-        {
-            condition: isStraight,
-            score: Score.STRAIGHT,
-        },
+        // TODO full house
         {
             condition: isFlush,
             score: Score.FLUSH,
         },
+        {
+            condition: isStraight,
+            score: Score.STRAIGHT,
+        },
+        // TODO add 3 of a kind
         {
             condition: isTwoPair,
             score: Score.TWO_PAIR,
@@ -38,12 +40,14 @@ namespace Rules {
             condition: isOnePair,
             score: Score.ONE_PAIR,
         },
-        // TODO add other hands
         {
             condition: () => true,
             score: Score.HIGH_CARD,
         },
     ];
+
+    // TODO sort methods similar to list above, separate second level methods out of this
+    // maybe separate objects/instances for complex checks?
 
     function isStraight(cards: FiveCards): boolean {
         let current = cards[0].value;
@@ -62,13 +66,14 @@ namespace Rules {
 
     function isRoyalFlush(cards: FiveCards): boolean {
         return isStraightFlush(cards) &&
-            cards.find((card: Card) => card.isAce()) !== undefined;
+            cards.find((card: Card) => card.isAce()) !== undefined; // TODO extrect function contains(card)
     }
 
     function isStraightFlush(cards: FiveCards): boolean {
         return isFlush(cards) && isStraight(cards);
     }
 
+    // TODO move
     function countOccurrencesByValue(cards: FiveCards) {
         return cards.reduce((countByValue: number[], card: Card) => {
             countByValue[card.value] = countByValue[card.value] ? countByValue[card.value]! + 1 : 1;
@@ -76,6 +81,7 @@ namespace Rules {
         }, []);
     }
 
+    // TODO move
     function hasOccurrenceCount(cards: FiveCards, count: number): boolean {
         const countByValue = countOccurrencesByValue(cards);
         return countByValue.find((value: number) => value === count) !== undefined;
@@ -91,6 +97,7 @@ namespace Rules {
 
     function isTwoPair(cards: FiveCards): boolean {
         const cardOccurrences = countOccurrencesByValue(cards);
+        // TODO duplication
         const occurrences = cardOccurrences.reduce((countByValue: number[], cardOccurrence: number) => {
             countByValue[cardOccurrence] = countByValue[cardOccurrence] ? countByValue[cardOccurrence]! + 1 : 1;
             return countByValue;
