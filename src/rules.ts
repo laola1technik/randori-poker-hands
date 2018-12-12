@@ -52,11 +52,12 @@ namespace Rules {
         },
     ];
 
-    // TODO sort methods similar to list above, separate second level methods out of this
-    // maybe separate objects/instances for complex checks?
-
     function isRoyalFlush(cards: FiveCards): boolean {
         return isStraightFlush(cards) && containsAce(cards);
+    }
+
+    function containsAce(cards: FiveCards) {
+        return cards.some((card: Card) => card.isAce());
     }
 
     function isStraightFlush(cards: FiveCards): boolean {
@@ -64,7 +65,7 @@ namespace Rules {
     }
 
     function isFourOfAKind(cards: FiveCards): boolean {
-        return hasCardOccurrencesOf(cards, 4);
+        return Count.hasGroupOfSize(cards, 4, (card) => card.value);
     }
 
     function isFullHouse(cards: FiveCards): boolean {
@@ -95,39 +96,17 @@ namespace Rules {
     }
 
     function isThreeOfAKind(cards: FiveCards): boolean {
-        return hasCardOccurrencesOf(cards, 3);
+        return Count.hasGroupOfSize(cards, 3, (card) => card.value);
     }
 
     function isTwoPair(cards: FiveCards): boolean {
-        const cardOccurrences = countOccurrencesByCardValue(cards);
-        const occurrences = countOccurrencesBy(cardOccurrences, (occurrence) => occurrence);
+        const cardOccurrences = Count.groupsOf(cards, (card) => card.value);
+        const occurrences = Count.groupsOf(cardOccurrences, (occurrence) => occurrence);
         return occurrences.length > 2 && occurrences[2] === 2;
     }
 
     function isOnePair(cards: FiveCards): boolean {
-        return hasCardOccurrencesOf(cards, 2);
-    }
-
-    function containsAce(cards: FiveCards) {
-        return cards.some((card: Card) => card.isAce());
-    }
-
-    // TODO move
-    function countOccurrencesByCardValue(cards: FiveCards) {
-        return countOccurrencesBy(cards, (card) => card.value);
-    }
-
-    function countOccurrencesBy<T>(items: T[], extract: (item: T) => number): number[] {
-        return items.reduce((countByValue: number[], item: T) => {
-            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
-            return countByValue;
-        }, []);
-    }
-
-    // TODO move
-    function hasCardOccurrencesOf(cards: FiveCards, count: number): boolean {
-        const countByValue = countOccurrencesByCardValue(cards);
-        return countByValue.find((value: number) => value === count) !== undefined;
+        return Count.hasGroupOfSize(cards, 2, (card) => card.value);
     }
 
     export function findScore(cards: FiveCards) {
@@ -137,6 +116,22 @@ namespace Rules {
             }
         }
         throw new Error(`No score found for cards ${JSON.stringify(cards)}`);
+    }
+}
+
+namespace Count {
+    export type Extract<T> = (item: T) => number;
+
+    export function groupsOf<T>(items: T[], extract: Extract<T>): number[] {
+        return items.reduce((countByValue: number[], item: T) => {
+            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
+            return countByValue;
+        }, []);
+    }
+
+    export function hasGroupOfSize<T>(items: T[], size: number, extract: Extract<T>): boolean {
+        const countByValue = Count.groupsOf(items, extract);
+        return countByValue.some((value: number) => value === size);
     }
 }
 
