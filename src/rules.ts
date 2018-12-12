@@ -55,10 +55,38 @@ namespace Rules {
     // TODO sort methods similar to list above, separate second level methods out of this
     // maybe separate objects/instances for complex checks?
 
+    function isRoyalFlush(cards: FiveCards): boolean {
+        return isStraightFlush(cards) && containsAce(cards);
+    }
+
+    function isStraightFlush(cards: FiveCards): boolean {
+        return isFlush(cards) && isStraight(cards);
+    }
+
+    function isFourOfAKind(cards: FiveCards): boolean {
+        return hasCardOccurrencesOf(cards, 4);
+    }
+
+    function isFullHouse(cards: FiveCards): boolean {
+        return isOnePair(cards) && isThreeOfAKind(cards);
+    }
+
+    function isFlush(cards: FiveCards): boolean {
+        return allSuitsMatch(cards);
+    }
+
+    function allSuitsMatch(cards: FiveCards) {
+        return cards.every((card: Card) => card.suits(cards[0]));
+    }
+
     function isStraight(cards: FiveCards): boolean {
+        return isSequential(cards, 1);
+    }
+
+    function isSequential(cards: FiveCards, delta: number): boolean {
         let current = cards[0].value;
         for (const card of cards.slice(1)) {
-            if (card.value !== current + 1) {
+            if (card.value !== current + delta) {
                 return false;
             }
             current = card.value;
@@ -66,20 +94,22 @@ namespace Rules {
         return true;
     }
 
-    function isFlush(cards: FiveCards): boolean {
-        return cards.filter((card: Card) => card.suits(cards[0])).length === 5;
+    function isThreeOfAKind(cards: FiveCards): boolean {
+        return hasCardOccurrencesOf(cards, 3);
     }
 
-    function isRoyalFlush(cards: FiveCards): boolean {
-        return isStraightFlush(cards) && containsAce(cards);
+    function isTwoPair(cards: FiveCards): boolean {
+        const cardOccurrences = countOccurrencesByCardValue(cards);
+        const occurrences = countOccurrencesBy(cardOccurrences, (occurrence) => occurrence);
+        return occurrences.length > 2 && occurrences[2] === 2;
+    }
+
+    function isOnePair(cards: FiveCards): boolean {
+        return hasCardOccurrencesOf(cards, 2);
     }
 
     function containsAce(cards: FiveCards) {
         return cards.some((card: Card) => card.isAce());
-    }
-
-    function isStraightFlush(cards: FiveCards): boolean {
-        return isFlush(cards) && isStraight(cards);
     }
 
     // TODO move
@@ -95,31 +125,9 @@ namespace Rules {
     }
 
     // TODO move
-    function hasOccurrenceCount(cards: FiveCards, count: number): boolean {
+    function hasCardOccurrencesOf(cards: FiveCards, count: number): boolean {
         const countByValue = countOccurrencesByCardValue(cards);
         return countByValue.find((value: number) => value === count) !== undefined;
-    }
-
-    function isFourOfAKind(cards: FiveCards): boolean {
-        return hasOccurrenceCount(cards, 4);
-    }
-
-    function isOnePair(cards: FiveCards): boolean {
-        return hasOccurrenceCount(cards, 2);
-    }
-
-    function isTwoPair(cards: FiveCards): boolean {
-        const cardOccurrences = countOccurrencesByCardValue(cards);
-        const occurrences = countOccurrencesBy(cardOccurrences, (occurrence) => occurrence);
-        return occurrences.length > 2 && occurrences[2] === 2;
-    }
-
-    function isThreeOfAKind(cards: FiveCards): boolean {
-        return hasOccurrenceCount(cards, 3);
-    }
-
-    function isFullHouse(cards: FiveCards): boolean {
-        return isOnePair(cards) && isThreeOfAKind(cards);
     }
 
     export function findScore(cards: FiveCards) {
