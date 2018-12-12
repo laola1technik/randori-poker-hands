@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import "mocha";
-import Hand from "./hand";
-import Score from "./score";
+import Hand from "../src/hand";
+import Score from "../src/score";
 
 describe("Rules", () => {
 

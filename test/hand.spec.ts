@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import "mocha";
-import Hand, {Result} from "./hand";
+import Hand, {Result} from "../src/hand";
 
 const flush = Hand.createFromCards("3d", "4d", "7d", "Td", "Kd");
 

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "mocha";
-import Card from "./card";
+import Card from "../src/card";
 
 describe("Card", () => {
 
