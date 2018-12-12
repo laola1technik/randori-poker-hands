@@ -71,8 +71,11 @@ namespace Rules {
     }
 
     function isRoyalFlush(cards: FiveCards): boolean {
-        return isStraightFlush(cards) &&
-            cards.find((card: Card) => card.isAce()) !== undefined; // TODO extrect function contains(card)
+        return isStraightFlush(cards) && containsAce(cards);
+    }
+
+    function containsAce(cards: FiveCards) {
+        return cards.some((card: Card) => card.isAce());
     }
 
     function isStraightFlush(cards: FiveCards): boolean {
