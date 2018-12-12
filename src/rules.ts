@@ -65,7 +65,7 @@ namespace Rules {
     }
 
     function isFourOfAKind(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, 4, (card) => card.value);
+        return Count.hasGroupOfSize(cards, 4, (card) => card.value); // TODO duplicated - Rules.valueGetter
     }
 
     function isFullHouse(cards: FiveCards): boolean {
@@ -84,6 +84,7 @@ namespace Rules {
         return isSequential(cards, 1);
     }
 
+    // TODO doesnt belong here
     function isSequential(cards: FiveCards, delta: number): boolean {
         let current = cards[0].value;
         for (const card of cards.slice(1)) {
@@ -102,7 +103,7 @@ namespace Rules {
     function isTwoPair(cards: FiveCards): boolean {
         const cardOccurrences = Count.groupsOf(cards, (card) => card.value);
         const occurrences = Count.groupsOf(cardOccurrences, (occurrence) => occurrence);
-        return occurrences.length > 2 && occurrences[2] === 2;
+        return occurrences.length > 2 && occurrences[2] === 2; // TODO tastes bad: its low level
     }
 
     function isOnePair(cards: FiveCards): boolean {
