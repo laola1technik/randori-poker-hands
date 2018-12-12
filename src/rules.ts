@@ -80,16 +80,20 @@ namespace Rules {
     }
 
     // TODO move
-    function countOccurrencesByValue(cards: FiveCards) {
-        return cards.reduce((countByValue: number[], card: Card) => {
-            countByValue[card.value] = countByValue[card.value] ? countByValue[card.value]! + 1 : 1;
+    function countOccurrencesByCardValue(cards: FiveCards) {
+        return countOccurrencesBy(cards, (card) => card.value);
+    }
+
+    function countOccurrencesBy<T>(items: T[], extract: (item: T) => number): number[] {
+        return items.reduce((countByValue: number[], item: T) => {
+            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
             return countByValue;
         }, []);
     }
 
     // TODO move
     function hasOccurrenceCount(cards: FiveCards, count: number): boolean {
-        const countByValue = countOccurrencesByValue(cards);
+        const countByValue = countOccurrencesByCardValue(cards);
         return countByValue.find((value: number) => value === count) !== undefined;
     }
 
@@ -101,18 +105,14 @@ namespace Rules {
         return hasOccurrenceCount(cards, 2);
     }
 
-    function isThreeOfAKind(cards: FiveCards): boolean {
-        return hasOccurrenceCount(cards, 3);
+    function isTwoPair(cards: FiveCards): boolean {
+        const cardOccurrences = countOccurrencesByCardValue(cards);
+        const occurrences = countOccurrencesBy(cardOccurrences, (occurrence) => occurrence);
+        return occurrences.length > 2 && occurrences[2] === 2;
     }
 
-    function isTwoPair(cards: FiveCards): boolean {
-        const cardOccurrences = countOccurrencesByValue(cards);
-        // TODO duplication
-        const occurrences = cardOccurrences.reduce((countByValue: number[], cardOccurrence: number) => {
-            countByValue[cardOccurrence] = countByValue[cardOccurrence] ? countByValue[cardOccurrence]! + 1 : 1;
-            return countByValue;
-        }, []);
-        return occurrences.length > 2 && occurrences[2] === 2;
+    function isThreeOfAKind(cards: FiveCards): boolean {
+        return hasOccurrenceCount(cards, 3);
     }
 
     function isFullHouse(cards: FiveCards): boolean {
