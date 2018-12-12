@@ -22,7 +22,10 @@ namespace Rules {
             condition: isFourOfAKind,
             score: Score.FOUR_OF_A_KIND,
         },
-        // TODO full house
+        {
+            condition: isFullHouse,
+            score: Score.FULL_HOUSE,
+        },
         {
             condition: isFlush,
             score: Score.FLUSH,
@@ -110,6 +113,10 @@ namespace Rules {
             return countByValue;
         }, []);
         return occurrences.length > 2 && occurrences[2] === 2;
+    }
+
+    function isFullHouse(cards: FiveCards): boolean {
+        return isOnePair(cards) && isThreeOfAKind(cards);
     }
 
     export function findScore(cards: FiveCards) {
