@@ -17,12 +17,6 @@ export default class Hand {
         this.score = Rules.findScore(this.cards);
     }
 
-    private sortCardsByValue() {
-        this.cards.sort((cardA: Card, cardB: Card) => {
-            return cardA.value - cardB.value;
-        });
-    }
-
     public compareTo(other: Hand): Result {
         if (this.score > other.score) {
             return Result.WIN;
@@ -30,6 +24,12 @@ export default class Hand {
         // TODO SPLIT
         // TODO cases of same hand with higher straight
         return Result.LOSE;
+    }
+
+    private sortCardsByValue() {
+        this.cards.sort((cardA: Card, cardB: Card) => {
+            return cardA.value - cardB.value;
+        });
     }
 
 }
