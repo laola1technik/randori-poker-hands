@@ -31,7 +31,10 @@ namespace Rules {
             condition: isStraight,
             score: Score.STRAIGHT,
         },
-        // TODO add 3 of a kind
+        {
+            condition: isThreeOfAKind,
+            score: Score.THREE_OF_A_KIND,
+        },
         {
             condition: isTwoPair,
             score: Score.TWO_PAIR,
@@ -93,6 +96,10 @@ namespace Rules {
 
     function isOnePair(cards: FiveCards): boolean {
         return hasOccurrenceCount(cards, 2);
+    }
+
+    function isThreeOfAKind(cards: FiveCards): boolean {
+        return hasOccurrenceCount(cards, 3);
     }
 
     function isTwoPair(cards: FiveCards): boolean {

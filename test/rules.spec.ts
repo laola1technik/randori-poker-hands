@@ -9,7 +9,7 @@ describe("Rules", () => {
         ["high card", ["3s", "4s", "7h", "Ts", "Ks"], Score.HIGH_CARD],
         ["one pair", ["3s", "3d", "7h", "Ts", "Ks"], Score.ONE_PAIR],
         ["two pair", ["3s", "3d", "7h", "7s", "Ks"], Score.TWO_PAIR],
-        // Todo: ["three of a kind", ["3s", "3d", "3h", "7s", "Ks"], Score.THREE_OF_A_KIND],
+        ["three of a kind", ["3s", "3d", "3h", "7s", "Ks"], Score.THREE_OF_A_KIND],
         ["straight", ["3s", "4d", "5h", "6s", "7s"], Score.STRAIGHT],
         ["flush", ["3d", "4d", "5d", "6d", "8d"], Score.FLUSH],
         // Todo: ["full house", ["5h", "5s", "5d", "8d", "8s"], Score.FULL_HOUSE],
