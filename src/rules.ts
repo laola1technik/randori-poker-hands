@@ -100,7 +100,7 @@ namespace Rules {
     }
 
     function isThreeOfAKind(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, (card) => card.value, 3);
+        return Count.of(cards).by(cardValue).is(3);
     }
 
     function isTwoPair(cards: FiveCards): boolean {
@@ -110,7 +110,7 @@ namespace Rules {
     }
 
     function isOnePair(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, (card) => card.value, 2);
+        return Count.of(cards).by(cardValue).is(2);
     }
 
     export function findScore(cards: FiveCards) {
@@ -133,11 +133,11 @@ namespace Count {
         }, []);
     }
 
-    interface Is {
-        is(n: number): boolean;
+    interface IGrouped {
+        is(size: number): boolean;
     }
 
-    export function groupsOf_<T>(items: T[], extract: Extract<T>): Is {
+    export function groupsOf_<T>(items: T[], extract: Extract<T>): IGrouped {
         const x = items.reduce((countByValue: number[], item: T) => {
             countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
             return countByValue;
@@ -149,13 +149,11 @@ namespace Count {
         };
     }
 
-    export function hasGroupOfSize<T>(items: T[], extract: Count.Extract<T>, size: number): boolean {
-        const countByValue = Count.groupsOf(items, extract);
-        return countByValue.some((value: number) => value === size);
+    interface ICount<T> {
+        by(extract: Count.Extract<T>): IGrouped;
     }
 
-    export function of<T>(items: T[]) {
-        // return Count.of(cards).by(cardValue).is(4);
+    export function of<T>(items: T[]): ICount<T> {
         return {
             by: (extract: Count.Extract<T>) => {
                 return Count.groupsOf_(items, extract);
