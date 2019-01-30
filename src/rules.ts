@@ -65,7 +65,11 @@ namespace Rules {
     }
 
     function isFourOfAKind(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, 4, (card) => card.value); // TODO duplicated - Rules.valueGetter
+        return Count.of(cards).by(cardValue).is(4);
+    }
+
+    function cardValue(card: Card): number {
+        return card.value;
     }
 
     function isFullHouse(cards: FiveCards): boolean {
@@ -84,7 +88,6 @@ namespace Rules {
         return isSequential(cards, 1);
     }
 
-    // TODO doesnt belong here
     function isSequential(cards: FiveCards, delta: number): boolean {
         let current = cards[0].value;
         for (const card of cards.slice(1)) {
@@ -97,17 +100,17 @@ namespace Rules {
     }
 
     function isThreeOfAKind(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, 3, (card) => card.value);
+        return Count.hasGroupOfSize(cards, (card) => card.value, 3);
     }
 
     function isTwoPair(cards: FiveCards): boolean {
-        const cardOccurrences = Count.groupsOf(cards, (card) => card.value);
-        const occurrences = Count.groupsOf(cardOccurrences, (occurrence) => occurrence);
-        return occurrences.length > 2 && occurrences[2] === 2; // TODO tastes bad: its low level
+        const occurrencesByValue = Count.groupsOf(cards, (card) => card.value);
+        const occurrencesGroupBySize = Count.groupsOf(occurrencesByValue, (occurrence) => occurrence);
+        return occurrencesGroupBySize.length > 2 && occurrencesGroupBySize[2] === 2;
     }
 
     function isOnePair(cards: FiveCards): boolean {
-        return Count.hasGroupOfSize(cards, 2, (card) => card.value);
+        return Count.hasGroupOfSize(cards, (card) => card.value, 2);
     }
 
     export function findScore(cards: FiveCards) {
@@ -130,9 +133,34 @@ namespace Count {
         }, []);
     }
 
-    export function hasGroupOfSize<T>(items: T[], size: number, extract: Extract<T>): boolean {
+    interface Is {
+        is(n: number): boolean;
+    }
+
+    export function groupsOf_<T>(items: T[], extract: Extract<T>): Is {
+        const x = items.reduce((countByValue: number[], item: T) => {
+            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
+            return countByValue;
+        }, []);
+        return {
+            is: (size: number) => {
+                return x.some((value: number) => value === size);
+            },
+        };
+    }
+
+    export function hasGroupOfSize<T>(items: T[], extract: Count.Extract<T>, size: number): boolean {
         const countByValue = Count.groupsOf(items, extract);
         return countByValue.some((value: number) => value === size);
+    }
+
+    export function of<T>(items: T[]) {
+        // return Count.of(cards).by(cardValue).is(4);
+        return {
+            by: (extract: Count.Extract<T>) => {
+                return Count.groupsOf_(items, extract);
+            },
+        };
     }
 }
 
