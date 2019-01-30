@@ -104,9 +104,10 @@ namespace Rules {
     }
 
     function isTwoPair(cards: FiveCards): boolean {
-        const occurrencesByValue = Count.groupsOf(cards, (card) => card.value);
-        const occurrencesGroupBySize = Count.groupsOf(occurrencesByValue, (occurrence) => occurrence);
-        return occurrencesGroupBySize.length > 2 && occurrencesGroupBySize[2] === 2;
+        const occurrencesByValue = Count.of(cards).by(cardValue);
+        return occurrencesByValue.groupBy().foo(2,2);
+        //return occurrencesGroupBySize.length > 2 && occurrencesGroupBySize[2] === 2;
+        // TODO implement foo with content of comment
     }
 
     function isOnePair(cards: FiveCards): boolean {
@@ -135,6 +136,7 @@ namespace Count {
 
     interface IGrouped {
         is(size: number): boolean;
+        groupBy(): IGrouped;
     }
 
     export function groupsOf_<T>(items: T[], extract: Extract<T>): IGrouped {
@@ -143,6 +145,9 @@ namespace Count {
             return countByValue;
         }, []);
         return {
+            groupBy: () => {
+                return groupsOf_(x, (occurrence) => occurrence);
+            },
             is: (size: number) => {
                 return x.some((value: number) => value === size);
             },
