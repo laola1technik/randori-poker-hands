@@ -65,7 +65,7 @@ namespace Rules {
     }
 
     function isFourOfAKind(cards: FiveCards): boolean {
-        return Count.of(cards).by(cardValue).is(4);
+        return Count.of(cards).groupedBy(cardValue).is(4);
     }
 
     function cardValue(card: Card): number {
@@ -81,7 +81,8 @@ namespace Rules {
     }
 
     function allSuitsMatch(cards: FiveCards) {
-        return cards.every((card: Card) => card.suits(cards[0]));
+        const firstCard = cards[0];
+        return cards.every((card: Card) => card.hasSameSuiteAs(firstCard));
     }
 
     function isStraight(cards: FiveCards): boolean {
@@ -100,18 +101,18 @@ namespace Rules {
     }
 
     function isThreeOfAKind(cards: FiveCards): boolean {
-        return Count.of(cards).by(cardValue).is(3);
+        return Count.of(cards).groupedBy(cardValue).is(3);
     }
 
     function isTwoPair(cards: FiveCards): boolean {
-        const occurrencesByValue = Count.of(cards).by(cardValue);
+        const occurrencesByValue = Count.of(cards).groupedBy(cardValue);
         return occurrencesByValue.groupBy().foo(2, 2);
         // return occurrencesGroupBySize.length > 2 && occurrencesGroupBySize[2] === 2;
         // TODO implement foo with content of comment
     }
 
     function isOnePair(cards: FiveCards): boolean {
-        return Count.of(cards).by(cardValue).is(2);
+        return Count.of(cards).groupedBy(cardValue).is(2);
     }
 
     export function findScore(cards: FiveCards) {
@@ -160,12 +161,12 @@ namespace Count {
     }
 
     interface ICount<T> {
-        by(extract: Count.Extract<T>): IGrouped;
+        groupedBy(extract: Count.Extract<T>): IGrouped;
     }
 
     export function of<T>(items: T[]): ICount<T> {
         return {
-            by: (extract: Count.Extract<T>) => {
+            groupedBy: (extract: Count.Extract<T>) => {
                 return Count.groupsOf_(items, extract);
             },
         };

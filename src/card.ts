@@ -19,7 +19,7 @@ export default class Card {
         return this.identifier[1];
     }
 
-    public suits(other: Card): boolean {
+    public hasSameSuiteAs(other: Card): boolean {
         return other.suit === this.suit;
     }
 
