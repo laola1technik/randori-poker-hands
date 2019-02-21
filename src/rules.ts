@@ -86,16 +86,19 @@ namespace Rules {
     }
 
     function isStraight(cards: FiveCards): boolean {
-        return isSequential(cards, 1);
+        return isSequential(cards);
     }
 
-    function isSequential(cards: FiveCards, delta: number): boolean {
-        let current = cards[0].value;
-        for (const card of cards.slice(1)) {
-            if (card.value !== current + delta) {
+    function isSequential(cards: FiveCards): boolean {
+        const firstCard = cards[0];
+        const remainingCards = cards.slice(1);
+
+        let previousCardValue = firstCard.value;
+        for (const card of remainingCards) {
+            if (card.value !== previousCardValue + 1) {
                 return false;
             }
-            current = card.value;
+            previousCardValue = card.value;
         }
         return true;
     }
@@ -137,6 +140,7 @@ namespace Count {
 
     interface IGrouped {
         is(size: number): boolean;
+
         groupBy(): IGrouped;
 
         foo(a: number, b: number): boolean;
