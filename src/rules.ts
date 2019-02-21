@@ -127,37 +127,10 @@ namespace Rules {
 }
 
 namespace Count {
-    export type Extract<T> = (item: T) => number;
-
-    export function groupsOf<T>(items: T[], extract: Extract<T>): number[] {
-        return items.reduce((countByValue: number[], item: T) => {
-            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
-            return countByValue;
-        }, []);
-    }
-
-    interface IGrouped {
-        is(size: number): boolean;
-
-        groupByOccurrences(): IGrouped;
-
-        hasPairs(count: number): boolean;
-    }
-
-    export function groupsOf_<T>(items: T[], extract: Extract<T>): IGrouped {
-        const x = items.reduce((countByValue: number[], item: T) => {
-            countByValue[extract(item)] = countByValue[extract(item)] ? countByValue[extract(item)]! + 1 : 1;
-            return countByValue;
-        }, []);
+    export function of<T>(items: T[]): ICount<T> {
         return {
-            groupByOccurrences: () => {
-                return groupsOf_(x, (occurrence) => occurrence);
-            },
-            hasPairs: (count: number) => {
-                return x.length > 2 && x[2] === count;
-            },
-            is: (size: number) => {
-                return x.some((value: number) => value === size);
+            groupedBy: (extract: Count.Extract<T>) => {
+                return groupsOf(items, extract);
             },
         };
     }
@@ -166,10 +139,31 @@ namespace Count {
         groupedBy(extract: Count.Extract<T>): IGrouped;
     }
 
-    export function of<T>(items: T[]): ICount<T> {
+    export type Extract<T> = (item: T) => number;
+
+    interface IGrouped {
+        groupByOccurrences(): IGrouped;
+
+        hasPairs(count: number): boolean;
+
+        is(size: number): boolean;
+    }
+
+    function groupsOf<T>(items: T[], extract: Extract<T>): IGrouped {
+        const occurrencesByValue = items.reduce((countByGroup: number[], item: T) => {
+            const group = extract(item);
+            countByGroup[group] = countByGroup[group] ? countByGroup[group]! + 1 : 1;
+            return countByGroup;
+        }, []);
         return {
-            groupedBy: (extract: Count.Extract<T>) => {
-                return Count.groupsOf_(items, extract);
+            groupByOccurrences: () => {
+                return groupsOf(occurrencesByValue, (occurrence) => occurrence);
+            },
+            hasPairs: (count: number) => {
+                return occurrencesByValue.length > 2 && occurrencesByValue[2] === count;
+            },
+            is: (size: number) => {
+                return occurrencesByValue.some((value: number) => value === size);
             },
         };
     }
