@@ -1,10 +1,9 @@
-#  Poker Hands Kata
+#  Poker Hands Kata #
 
-This is the [Poker Hands Kata](http://codingdojo.org/kata/PokerHands/)
-in TypeScript with [Mocha](https://mochajs.org/),
-done in a Randori-styled [Coding Dojo](http://codingdojo.org/WhatIsCodingDojo/).
+This is the [Poker Hands Kata](http://codingdojo.org/kata/PokerHands/) in TypeScript with [Mocha](https://mochajs.org/), done in a Randori-styled [Coding Dojo](http://codingdojo.org/WhatIsCodingDojo/).
 
-## Installation
+## Installation ##
+
 * This package requires [Node Package Manager](https://www.npmjs.com/)
     * Have node installed, verify using ```node -v```
     * Have npm installed, verify using ```npm -v```
@@ -13,9 +12,11 @@ done in a Randori-styled [Coding Dojo](http://codingdojo.org/WhatIsCodingDojo/).
     * verify using ```npm test``` (running tests)
 
 ### Check your Coverage ###
+
 To measure your progress you should use code coverage tools:
 
 * [Istanbul](https://istanbul.js.org/) - run `coverage.bat`.
 
-### License
+### License ###
+
 This work is licensed under a [New BSD License](http://opensource.org/licenses/bsd-license.php), see `license.txt` in repository.
